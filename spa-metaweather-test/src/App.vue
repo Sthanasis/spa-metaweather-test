@@ -1,14 +1,16 @@
 <template>
   <div id="app">
-    <h1>test</h1>
-    <button class="btn btn-primary">yo</button>
+    <Layout />
   </div>
 </template>
 
 <script>
+import Layout from "./components/Layout";
 export default {
   name: "App",
-  components: {},
+  components: {
+    Layout,
+  },
 };
 </script>
 
