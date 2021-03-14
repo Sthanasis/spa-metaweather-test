@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div>
     <b-form-input
       id="search"
       v-model="text"
