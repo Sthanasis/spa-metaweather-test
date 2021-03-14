@@ -1,18 +1,12 @@
 <template>
-  <b-card
-    header="featured"
-    header-tag="header"
-    footer="Card Footer"
-    footer-tag="footer"
-    :title="city.title"
-  >
-    <b-card-text>View the weather forecast for: {{ city.title }}</b-card-text>
+  <b-card :header="city.title" header-tag="header" title="">
+    <b-card-text>View the weather forecast for {{ city.title }}</b-card-text>
     <b-button
       v-b-modal.modal-tall
       href="#"
       variant="primary"
       @click="fetchForecast"
-      >View</b-button
+      >View forecast</b-button
     >
   </b-card>
 </template>
@@ -23,6 +17,7 @@ export default {
     city: {
       type: Object,
     },
+    show: {},
   },
   methods: {
     fetchForecast() {
@@ -32,9 +27,11 @@ export default {
 };
 </script>
 
-<style>
-.card {
-  width: 400px;
-  margin: 10px;
+<style scoped>
+@media (min-width: 500px) {
+  .card {
+    width: 48%;
+    margin: 5px 2px;
+  }
 }
 </style>

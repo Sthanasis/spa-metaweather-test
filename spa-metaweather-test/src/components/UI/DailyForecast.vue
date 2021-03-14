@@ -1,17 +1,20 @@
 <template>
-  <b-card :header="weatherObj.applicable_date" header-tag="header">
+  <b-card :header="date" header-tag="header">
     <b-card-text>
-      <div>
-        {{ weatherObj.weather_state_name }}
+      <div class="description-container">
+        <img
+          :src="
+            `https://www.metaweather.com/static/img/weather/${weatherObj.weather_state_abbr}.svg`
+          "
+          alt=""
+          height="100px"
+          width="100px"
+        />
+        <div>
+          {{ weatherObj.weather_state_name }}
+        </div>
       </div>
-      <img
-        :src="
-          `https://www.metaweather.com/static/img/weather/${weatherObj.weather_state_abbr}.svg`
-        "
-        alt=""
-        height="100px"
-        width="100px"
-      />
+
       <div>
         <span>Min: {{ weatherObj.min_temp.toFixed(0) }}&#8451;</span>
       </div>
@@ -33,7 +36,35 @@ export default {
       type: Object,
     },
   },
+  computed: {
+    date() {
+      const date = new Date(this.weatherObj.applicable_date);
+      const today = new Date();
+      const dateString = `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`;
+      const todayString = `${today.getDate()}/${today.getMonth()}/${today.getFullYear()}`;
+      if (dateString === todayString) return "Today";
+      return this.weatherObj.applicable_date;
+    },
+  },
 };
 </script>
 
-<style></style>
+<style>
+.description-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.description-container img {
+  margin-right: 10px;
+}
+
+.description-container div {
+  font-weight: bold;
+}
+
+.card-text div {
+  text-align: start;
+}
+</style>

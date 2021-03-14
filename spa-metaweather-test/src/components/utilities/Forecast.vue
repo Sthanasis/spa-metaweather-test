@@ -1,12 +1,19 @@
 <template>
-  <b-modal id="modal-tall" title="Weather Forecast">
-    <div>{{ forecast.title }}: {{ forecast.parent.title }}</div>
-    <div>
-      <DailyForecast
-        v-for="f in forecast.consolidated_weather"
-        :key="f.id"
-        :weatherObj="f"
-      />
+  <b-modal id="modal-tall" hide-footer title="Consolidated Weather">
+    <div v-if="forecast">
+      <div style="margin: 10px 0; font-weight:bold">
+        {{ forecast.title }}: {{ forecast.parent.title }}
+      </div>
+      <div>
+        <DailyForecast
+          v-for="f in forecast.consolidated_weather"
+          :key="f.id"
+          :weatherObj="f"
+        />
+      </div>
+    </div>
+    <div v-else>
+      <b-spinner type="grow" label="Loading..."></b-spinner>
     </div>
   </b-modal>
 </template>
@@ -22,6 +29,9 @@ export default {
   },
   components: {
     DailyForecast,
+  },
+  mounted() {
+    console.log(this.forecast);
   },
 };
 </script>

@@ -13,8 +13,8 @@
         @fetchForecast="fetchForecast"
       />
     </div>
-
-    <Forecast v-if="selectedCity" :forecast="selectedCity" />
+    <Logo v-if="results.length === 0" />
+    <Forecast :forecast="selectedCity" />
   </div>
 </template>
 
@@ -22,6 +22,8 @@
 import Search from "./utilities/Search";
 import City from "./utilities/City";
 import Forecast from "./utilities/Forecast";
+import Logo from "./utilities/Logo";
+import toast from "@/mixins/toasts.js";
 import axios from "axios";
 
 export default {
@@ -30,12 +32,15 @@ export default {
       results: [],
       loading: false,
       selectedCity: null,
+      show: false,
     };
   },
+  mixins: [toast],
   components: {
     Search,
     City,
     Forecast,
+    Logo,
   },
   methods: {
     fetchData(query) {
@@ -49,11 +54,13 @@ export default {
           })
           .catch((err) => {
             console.log(err);
+            this.errorToast("Something went wrong try again later");
             this.loading = false;
           });
       } else {
         this.results = [];
         this.selectedCity = null;
+        this.show = false;
       }
     },
     fetchForecast(cityId) {
@@ -61,7 +68,8 @@ export default {
         .get(`http://localhost:3000/?params=${cityId}`)
         .then((res) => {
           this.selectedCity = res.data;
-          console.log(res);
+          console.log(this.selectedCity);
+          this.show = true;
         })
         .catch((err) => {
           console.log(err);
@@ -72,9 +80,9 @@ export default {
 </script>
 
 <style>
-.grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
+.flex {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 </style>

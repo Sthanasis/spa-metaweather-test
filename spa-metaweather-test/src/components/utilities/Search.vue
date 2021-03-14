@@ -3,25 +3,24 @@
     <b-form-input
       id="search"
       v-model="text"
-      placeholder="Enter location"
-      @input="onLocationChange"
+      placeholder="City name"
       type="search"
     ></b-form-input>
   </div>
 </template>
 
 <script>
+import { debounce } from "lodash";
 export default {
   data() {
     return {
       text: "",
     };
   },
-  watch: {},
-  methods: {
-    onLocationChange() {
+  watch: {
+    text: debounce(function() {
       this.$emit("fetch", this.text);
-    },
+    }, 500),
   },
 };
 </script>
